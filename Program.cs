@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Text.Json;
 using System.IO;
 using System.Text.Json.Serialization;
+using System.Media;
 
 namespace WiiLink_Desktop_CS
 {
@@ -13,6 +14,11 @@ namespace WiiLink_Desktop_CS
     {
         public static RootConfig Config = new();
         public static FirstConfig FirstConfig = new();
+
+        public static SoundPlayer BGM_Main1 = new(Properties.Resources.BGM_Main1);
+        public static SoundPlayer BGM_Main2 = new(Properties.Resources.BGM_Main2);
+        public static SoundPlayer BGM_Settings = new(Properties.Resources.BGM_Settings);
+        public static SoundPlayer BGM_Theatre = new(Properties.Resources.BGM_Theatre);
 
         public static string FirstBinURL;
         public static bool maintenance;

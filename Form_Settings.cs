@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -17,6 +18,11 @@ namespace WiiLink_Desktop_CS
     {
         RootConfig Config = Program.Config;
 
+        SoundPlayer BGM_Main1 = Program.BGM_Main1;
+        SoundPlayer BGM_Main2 = Program.BGM_Main2;
+        SoundPlayer BGM_Settings = Program.BGM_Settings;
+        SoundPlayer BGM_Theatre = Program.BGM_Theatre;
+
         public Form_Settings()
         {
             InitializeComponent();
@@ -24,6 +30,13 @@ namespace WiiLink_Desktop_CS
 
         private void Form_Settings_Load(object sender, EventArgs e)
         {
+            BGM_Main1.Stop();
+            BGM_Main2.Stop();
+            if (Config.PlayAudio)
+            {
+                BGM_Settings.PlayLooping();
+            }
+
             if (File.Exists("config.json"))
             {
                 string configtext = File.ReadAllText("config.json");
@@ -95,6 +108,11 @@ namespace WiiLink_Desktop_CS
             File.WriteAllText("config.json", json);
             MessageBox.Show("Settings saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+            BGM_Settings.Stop();
+            if (Config.PlayAudio)
+            {
+                BGM_Main2.PlayLooping();
+            }
             this.Close();
         }
     }
