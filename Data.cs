@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Xml.Serialization;
 
 namespace WiiLink_Desktop_CS
 {
@@ -29,35 +30,241 @@ namespace WiiLink_Desktop_CS
         public bool PlayAudio { get; set; }
     }
 
-    public class FirstConfig
+
+    // NOTE: Generated code may require at least .NET Framework 4.5 or .NET Core/Standard 2.0.
+    /// <remarks/>
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "Config")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
+    public partial class FirstConfig
     {
-        [JsonPropertyName("maint")]
-        public bool Maintenance { get; set; }
-        [JsonPropertyName("url1")]
-        public string URL1 { get; set; }
-        [JsonPropertyName("url2")]
-        public string URL2 { get; set; }
-        [JsonPropertyName("url3")]
-        public string URL3 { get; set; }
-        [JsonPropertyName("eulaver")]
-        public int eulaVer { get; set; }
-        [JsonPropertyName("shopurl")]
-        public string ShopURL { get; set; }
-        [JsonPropertyName("shopkey")]
-        public string ShopKey { get; set; }
-        [JsonPropertyName("shopvalid")]
-        public bool ShopValid { get; set; }
-        [JsonPropertyName("akahost")]
-        public int akaHost { get; set; }
-        [JsonPropertyName("akaca")]
-        public int akaCA { get; set; }
-        [JsonPropertyName("smpkey")]
-        public string SMPKey { get; set; }
-        [JsonPropertyName("fmax")]
-        public int FMax { get; set; }
-        [JsonPropertyName("bmax")]
-        public int BMax { get; set; }
-        [JsonPropertyName("upddt")]
-        public string UpdDT { get; set; }
+
+        private ushort verField;
+
+        private bool maintField;
+
+        private string url1Field;
+
+        private string url2Field;
+
+        private string url3Field;
+
+        private byte eulaverField;
+
+        private string shopurlField;
+
+        private string shopkeyField;
+
+        private bool shopvalidField;
+
+        private byte akahostField;
+
+        private byte akacaField;
+
+        private string smpkeyField;
+
+        private byte fmaxField;
+
+        private byte bmaxField;
+
+        private System.DateTime upddtField;
+
+        /// <remarks/>
+        public ushort ver
+        {
+            get
+            {
+                return this.verField;
+            }
+            set
+            {
+                this.verField = value;
+            }
+        }
+
+        /// <remarks/>
+        public bool maint
+        {
+            get
+            {
+                return this.maintField;
+            }
+            set
+            {
+                this.maintField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string url1
+        {
+            get
+            {
+                return this.url1Field;
+            }
+            set
+            {
+                this.url1Field = value;
+            }
+        }
+
+        /// <remarks/>
+        public string url2
+        {
+            get
+            {
+                return this.url2Field;
+            }
+            set
+            {
+                this.url2Field = value;
+            }
+        }
+
+        /// <remarks/>
+        public string url3
+        {
+            get
+            {
+                return this.url3Field;
+            }
+            set
+            {
+                this.url3Field = value;
+            }
+        }
+
+        /// <remarks/>
+        public byte eulaver
+        {
+            get
+            {
+                return this.eulaverField;
+            }
+            set
+            {
+                this.eulaverField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string shopurl
+        {
+            get
+            {
+                return this.shopurlField;
+            }
+            set
+            {
+                this.shopurlField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string shopkey
+        {
+            get
+            {
+                return this.shopkeyField;
+            }
+            set
+            {
+                this.shopkeyField = value;
+            }
+        }
+
+        /// <remarks/>
+        public bool shopvalid
+        {
+            get
+            {
+                return this.shopvalidField;
+            }
+            set
+            {
+                this.shopvalidField = value;
+            }
+        }
+
+        /// <remarks/>
+        public byte akahost
+        {
+            get
+            {
+                return this.akahostField;
+            }
+            set
+            {
+                this.akahostField = value;
+            }
+        }
+
+        /// <remarks/>
+        public byte akaca
+        {
+            get
+            {
+                return this.akacaField;
+            }
+            set
+            {
+                this.akacaField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string smpkey
+        {
+            get
+            {
+                return this.smpkeyField;
+            }
+            set
+            {
+                this.smpkeyField = value;
+            }
+        }
+
+        /// <remarks/>
+        public byte fmax
+        {
+            get
+            {
+                return this.fmaxField;
+            }
+            set
+            {
+                this.fmaxField = value;
+            }
+        }
+
+        /// <remarks/>
+        public byte bmax
+        {
+            get
+            {
+                return this.bmaxField;
+            }
+            set
+            {
+                this.bmaxField = value;
+            }
+        }
+
+        /// <remarks/>
+        public System.DateTime upddt
+        {
+            get
+            {
+                return this.upddtField;
+            }
+            set
+            {
+                this.upddtField = value;
+            }
+        }
     }
+
+
 }
