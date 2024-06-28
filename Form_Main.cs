@@ -30,8 +30,9 @@ namespace WiiLink_Desktop_CS
 
         }
 
-        private void Form_Main_Load(object sender, EventArgs e)
+        private async void Form_Main_Load(object sender, EventArgs e)
         {
+
             Label_WiiNoValue.Text = Config.WiiNo.ToString().Insert(4, " ").Insert(9, " ").Insert(14, " ").Insert(19, " ");
             Label_ConsoleTypeValue.Text = Config.WiiType.ToString();
 
@@ -39,6 +40,10 @@ namespace WiiLink_Desktop_CS
             {
                 BGM_Main1.PlayLooping();
             }
+
+
+            Form_MainAnim Form_MainAnim = new();
+            Form_MainAnim.ShowDialog();
         }
 
         private void Button_Exit_Click(object sender, EventArgs e)
