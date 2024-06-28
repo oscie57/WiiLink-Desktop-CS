@@ -98,9 +98,12 @@
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(380, 280);
+            ControlBox = false;
             Controls.Add(Pic_Card);
             Controls.Add(Panel_Control);
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "Form_Digicard";
             Text = "Digicard";
             Load += Form_Digicard_Load;

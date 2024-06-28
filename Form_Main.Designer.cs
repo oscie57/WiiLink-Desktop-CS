@@ -203,13 +203,16 @@
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.FromArgb(224, 224, 224);
             ClientSize = new System.Drawing.Size(624, 441);
+            ControlBox = false;
             Controls.Add(Pic_Intro);
             Controls.Add(Pic_Poster);
             Controls.Add(Panel_BottomBg);
             Controls.Add(Panel_TopBg);
             Font = new System.Drawing.Font("nintendo_NTLG-DB_002", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "Form_Main";
             Text = "WiiLink Desktop";
             Load += Form_Main_Load;

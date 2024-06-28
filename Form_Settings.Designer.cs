@@ -182,6 +182,7 @@
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.SystemColors.ControlDarkDark;
             ClientSize = new System.Drawing.Size(380, 260);
+            ControlBox = false;
             Controls.Add(Panel_SaveControls);
             Controls.Add(Check_PlayAudio);
             Controls.Add(Label_PlayAudio);
@@ -195,8 +196,10 @@
             Controls.Add(Label_WiiNo);
             Font = new System.Drawing.Font("nintendo_NTLG-DB_002", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             ForeColor = System.Drawing.Color.White;
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "Form_Settings";
             Text = "Settings";
             Load += Form_Settings_Load;
