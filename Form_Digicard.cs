@@ -13,7 +13,7 @@ namespace WiiLink_Desktop_CS
 {
     public partial class Form_Digicard : Form
     {
-        RootConfig Config = Program.Config;
+        Options Options = Program.Options;
 
         SoundPlayer BGM_Main1 = Program.BGM_Main1;
         SoundPlayer BGM_Main2 = Program.BGM_Main2;
@@ -28,7 +28,7 @@ namespace WiiLink_Desktop_CS
         private void Button_Close_Click(object sender, EventArgs e)
         {
             BGM_Theatre.Stop();
-            if (Config.PlayAudio)
+            if (Options.PlayAudio)
             {
                 BGM_Main2.PlayLooping();
             }
@@ -39,12 +39,12 @@ namespace WiiLink_Desktop_CS
         {
             BGM_Main1.Stop();
             BGM_Main2.Stop();
-            if (Config.PlayAudio)
+            if (Options.PlayAudio)
             {
                 BGM_Theatre.PlayLooping();
             }
 
-            ulong DiscordID = Config.DiscordID;
+            ulong DiscordID = Options.DiscordID;
             string Randomizer = new Random().ToString();
             string CardURL = $"https://card.wiilink24.com/cards/{DiscordID}.jpg?randomizer={Randomizer}";
 

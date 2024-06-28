@@ -16,7 +16,7 @@ namespace WiiLink_Desktop_CS
 {
     public partial class Form_Settings : Form
     {
-        RootConfig Config = Program.Config;
+        Options Options = Program.Options;
 
         SoundPlayer BGM_Main1 = Program.BGM_Main1;
         SoundPlayer BGM_Main2 = Program.BGM_Main2;
@@ -32,7 +32,7 @@ namespace WiiLink_Desktop_CS
         {
             BGM_Main1.Stop();
             BGM_Main2.Stop();
-            if (Config.PlayAudio)
+            if (Options.PlayAudio)
             {
                 BGM_Settings.PlayLooping();
             }
@@ -40,13 +40,13 @@ namespace WiiLink_Desktop_CS
             if (File.Exists("config.json"))
             {
                 string configtext = File.ReadAllText("config.json");
-                Config = JsonSerializer.Deserialize<RootConfig>(configtext);
+                Options = JsonSerializer.Deserialize<Options>(configtext);
 
-                Text_WiiNo.Text = Config.WiiNo.ToString();
-                Combo_WiiType.SelectedIndex = (int)Config.WiiType;
-                Text_DiscordID.Text = Config.DiscordID.ToString();
-                Text_ServerURL.Text = Config.ServerURL;
-                Check_PlayAudio.Checked = Config.PlayAudio;
+                Text_WiiNo.Text = Options.WiiNo.ToString();
+                Combo_WiiType.SelectedIndex = (int)Options.WiiType;
+                Text_DiscordID.Text = Options.DiscordID.ToString();
+                Text_ServerURL.Text = Options.ServerURL;
+                Check_PlayAudio.Checked = Options.PlayAudio;
             }
             else
             {
@@ -98,18 +98,18 @@ namespace WiiLink_Desktop_CS
             string ServerURL = Text_ServerURL.Text;
             bool PlayAudio = Check_PlayAudio.Checked;
 
-            Config.WiiNo = WiiNo;
-            Config.WiiType = WiiType;
-            Config.DiscordID = DiscordID;
-            Config.ServerURL = ServerURL;
-            Config.PlayAudio = PlayAudio;
+            Options.WiiNo = WiiNo;
+            Options.WiiType = WiiType;
+            Options.DiscordID = DiscordID;
+            Options.ServerURL = ServerURL;
+            Options.PlayAudio = PlayAudio;
 
-            string json = JsonSerializer.Serialize(Config);
+            string json = JsonSerializer.Serialize(Options);
             File.WriteAllText("config.json", json);
             MessageBox.Show("Settings saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             BGM_Settings.Stop();
-            if (Config.PlayAudio)
+            if (Options.PlayAudio)
             {
                 BGM_Main2.PlayLooping();
             }

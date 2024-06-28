@@ -17,7 +17,7 @@ namespace WiiLink_Desktop_CS
 {
     public partial class Form_Main : Form
     {
-        RootConfig Config = Program.Config;
+        Options Options = Program.Options;
 
         SoundPlayer BGM_Main1 = Program.BGM_Main1;
         SoundPlayer BGM_Main2 = Program.BGM_Main2;
@@ -33,10 +33,10 @@ namespace WiiLink_Desktop_CS
         private async void Form_Main_Load(object sender, EventArgs e)
         {
 
-            Label_WiiNoValue.Text = Config.WiiNo.ToString().Insert(4, " ").Insert(9, " ").Insert(14, " ").Insert(19, " ");
-            Label_ConsoleTypeValue.Text = Config.WiiType.ToString();
+            Label_WiiNoValue.Text = Options.WiiNo.ToString().Insert(4, " ").Insert(9, " ").Insert(14, " ").Insert(19, " ");
+            Label_ConsoleTypeValue.Text = Options.WiiType.ToString();
 
-            if ( Config.PlayAudio )
+            if (Options.PlayAudio )
             {
                 BGM_Main1.PlayLooping();
             }

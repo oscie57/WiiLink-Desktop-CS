@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
+using System.Runtime;
 
 namespace WiiLink_Desktop_CS
 {
@@ -16,7 +17,7 @@ namespace WiiLink_Desktop_CS
         DolphinEmu = 2
     }
 
-    public class RootConfig
+    public class Options
     {
         [JsonPropertyName("wiiNo")]
         public ulong WiiNo { get; set; }
@@ -30,241 +31,118 @@ namespace WiiLink_Desktop_CS
         public bool PlayAudio { get; set; }
     }
 
-
-    // NOTE: Generated code may require at least .NET Framework 4.5 or .NET Core/Standard 2.0.
-    /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "Config")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
-    public partial class FirstConfig
+    [XmlRoot(ElementName = "Config")]
+    public class Config
     {
-
-        private ushort verField;
-
-        private bool maintField;
-
-        private string url1Field;
-
-        private string url2Field;
-
-        private string url3Field;
-
-        private byte eulaverField;
-
-        private string shopurlField;
-
-        private string shopkeyField;
-
-        private bool shopvalidField;
-
-        private byte akahostField;
-
-        private byte akacaField;
-
-        private string smpkeyField;
-
-        private byte fmaxField;
-
-        private byte bmaxField;
-
-        private System.DateTime upddtField;
-
-        /// <remarks/>
-        public ushort ver
-        {
-            get
-            {
-                return this.verField;
-            }
-            set
-            {
-                this.verField = value;
-            }
-        }
-
-        /// <remarks/>
-        public bool maint
-        {
-            get
-            {
-                return this.maintField;
-            }
-            set
-            {
-                this.maintField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string url1
-        {
-            get
-            {
-                return this.url1Field;
-            }
-            set
-            {
-                this.url1Field = value;
-            }
-        }
-
-        /// <remarks/>
-        public string url2
-        {
-            get
-            {
-                return this.url2Field;
-            }
-            set
-            {
-                this.url2Field = value;
-            }
-        }
-
-        /// <remarks/>
-        public string url3
-        {
-            get
-            {
-                return this.url3Field;
-            }
-            set
-            {
-                this.url3Field = value;
-            }
-        }
-
-        /// <remarks/>
-        public byte eulaver
-        {
-            get
-            {
-                return this.eulaverField;
-            }
-            set
-            {
-                this.eulaverField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string shopurl
-        {
-            get
-            {
-                return this.shopurlField;
-            }
-            set
-            {
-                this.shopurlField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string shopkey
-        {
-            get
-            {
-                return this.shopkeyField;
-            }
-            set
-            {
-                this.shopkeyField = value;
-            }
-        }
-
-        /// <remarks/>
-        public bool shopvalid
-        {
-            get
-            {
-                return this.shopvalidField;
-            }
-            set
-            {
-                this.shopvalidField = value;
-            }
-        }
-
-        /// <remarks/>
-        public byte akahost
-        {
-            get
-            {
-                return this.akahostField;
-            }
-            set
-            {
-                this.akahostField = value;
-            }
-        }
-
-        /// <remarks/>
-        public byte akaca
-        {
-            get
-            {
-                return this.akacaField;
-            }
-            set
-            {
-                this.akacaField = value;
-            }
-        }
-
-        /// <remarks/>
-        public string smpkey
-        {
-            get
-            {
-                return this.smpkeyField;
-            }
-            set
-            {
-                this.smpkeyField = value;
-            }
-        }
-
-        /// <remarks/>
-        public byte fmax
-        {
-            get
-            {
-                return this.fmaxField;
-            }
-            set
-            {
-                this.fmaxField = value;
-            }
-        }
-
-        /// <remarks/>
-        public byte bmax
-        {
-            get
-            {
-                return this.bmaxField;
-            }
-            set
-            {
-                this.bmaxField = value;
-            }
-        }
-
-        /// <remarks/>
-        public System.DateTime upddt
-        {
-            get
-            {
-                return this.upddtField;
-            }
-            set
-            {
-                this.upddtField = value;
-            }
-        }
+        [XmlElement(ElementName = "ver")]
+        public int ver { get; set; }
+        [XmlElement(ElementName = "maint")]
+        public bool maint { get; set; }
+        [XmlElement(ElementName = "url1")]
+        public string url1 { get; set; }
+        [XmlElement(ElementName = "url2")]
+        public string url2 { get; set; }
+        [XmlElement(ElementName = "url3")]
+        public string url3 { get; set; }
+        [XmlElement(ElementName = "eulaver")]
+        public int eulaver { get; set; }
+        [XmlElement(ElementName = "shopurl")]
+        public string shopurl { get; set; }
+        [XmlElement(ElementName = "shopkey")]
+        public string shopkey { get; set; }
+        [XmlElement(ElementName = "shopvalid")]
+        public bool shopvalid { get; set; }
+        [XmlElement(ElementName = "akahost")]
+        public int akahost { get; set; }
+        [XmlElement(ElementName = "akaca")]
+        public int akaca { get; set; }
+        [XmlElement(ElementName = "smpkey")]
+        public string smpkey { get; set; }
+        [XmlElement(ElementName = "fmax")]
+        public int fmax { get; set; }
+        [XmlElement(ElementName = "bmax")]
+        public int bmax { get; set; }
+        [XmlElement(ElementName = "upddt")]
+        public DateTime upddt { get; set; }
     }
 
+    [XmlRoot(ElementName = "Event")]
+    public class Event
+    {
+        [XmlElement(ElementName = "ver")]
+        public int ver { get; set; }
+        [XmlElement(ElementName = "date")]
+        public DateTime date { get; set; }
+        [XmlElement(ElementName = "frameid")]
+        public int frameid { get; set; }
+        [XmlElement(ElementName = "color")]
+        public int color { get; set; }
+        [XmlElement(ElementName = "postertime")]
+        public int postertime { get; set; }
+        [XmlElement(ElementName = "adinfo")]
+        public adinfo adinfo { get; set; }
+        [XmlElement(ElementName = "posterinfo")]
+        public List<posterinfo> posterinfo { get; set; }
+        [XmlElement(ElementName = "introinfo")]
+        public List<introinfo> introinfo { get; set; }
+        [XmlElement(ElementName = "newsinfo")]
+        public List<newsinfo> newsinfo { get; set; }
+        [XmlElement(ElementName = "miiinfo")]
+        public List<miiinfo> miiinfo { get; set; }
+    }
 
+    [XmlRoot(ElementName = "adinfo")]
+    public class adinfo
+    {
+        [XmlElement(ElementName = "pref")]
+        public List<int> pref { get; set; }
+        [XmlElement(ElementName = "adid")]
+        public List<int> adid { get; set; }
+    }
+    [XmlRoot(ElementName = "posterinfo")]
+    public class posterinfo
+    {
+        [XmlElement(ElementName = "seq")]
+        public int seq { get; set; }
+        [XmlElement(ElementName = "posterid")]
+        public int posterid { get; set; }
+    }
+    [XmlRoot(ElementName = "introinfo")]
+    public class introinfo
+    {
+        [XmlElement(ElementName = "seq")]
+        public int seq { get; set; }
+        [XmlElement(ElementName = "cntid")]
+        public int cntid { get; set; }
+        [XmlElement(ElementName = "cnttype")]
+        public int cnttype { get; set; }
+        [XmlElement(ElementName = "random")]
+        public int random { get; set; }
+        [XmlElement(ElementName = "linktype")]
+        public int linktype { get; set; }
+        [XmlElement(ElementName = "dispsec")]
+        public int dispsec { get; set; }
+        [XmlElement(ElementName = "dimg")]
+        public int dimg { get; set; }
+        [XmlElement(ElementName = "linkid")]
+        public int linkid { get; set; }
+        [XmlElement(ElementName = "catname")]
+        public string catname { get; set; }
+    }
+    [XmlRoot(ElementName = "newsinfo")]
+    public class newsinfo
+    {
+        [XmlElement(ElementName = "page")]
+        public int page { get; set; }
+        [XmlElement(ElementName = "news")]
+        public string news { get; set; }
+    }
+    [XmlRoot(ElementName = "miiinfo")]
+    public class miiinfo
+    {
+        [XmlElement(ElementName = "seq")]
+        public int seq { get; set; }
+        [XmlElement(ElementName = "miiid")]
+        public int miiid { get; set; }
+    }
 }

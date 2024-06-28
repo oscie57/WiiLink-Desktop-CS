@@ -14,6 +14,7 @@ namespace WiiLink_Desktop_CS
     public partial class Form_MainAnim : Form
     {
         System.Windows.Forms.Timer AnimationTimer = new();
+        Options Options = Program.Options;
 
         public Form_MainAnim()
         {
