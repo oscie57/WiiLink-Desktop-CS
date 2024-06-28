@@ -15,6 +15,8 @@ namespace WiiLink_Desktop_CS
 {
     public partial class Form_Settings : Form
     {
+        RootConfig Config = Program.Config;
+
         public Form_Settings()
         {
             InitializeComponent();
@@ -25,7 +27,7 @@ namespace WiiLink_Desktop_CS
             if (File.Exists("config.json"))
             {
                 string configtext = File.ReadAllText("config.json");
-                RootConfig Config = JsonSerializer.Deserialize<RootConfig>(configtext);
+                Config = JsonSerializer.Deserialize<RootConfig>(configtext);
 
                 Text_WiiNo.Text = Config.WiiNo.ToString();
                 Combo_WiiType.SelectedIndex = (int)Config.WiiType;
@@ -82,8 +84,6 @@ namespace WiiLink_Desktop_CS
             ulong DiscordID = ulong.Parse(Text_DiscordID.Text);
             string ServerURL = Text_ServerURL.Text;
             bool PlayAudio = Check_PlayAudio.Checked;
-
-            RootConfig Config = new RootConfig();
 
             Config.WiiNo = WiiNo;
             Config.WiiType = WiiType;

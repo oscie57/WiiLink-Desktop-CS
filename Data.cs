@@ -10,10 +10,9 @@ namespace WiiLink_Desktop_CS
 {
     public enum WiiType
     {
-        NotSet = 0,
-        Wii = 1,
-        WiiU = 2,
-        DolphinEmu = 3
+        Wii = 0,
+        WiiU = 1,
+        DolphinEmu = 2
     }
 
     public class RootConfig

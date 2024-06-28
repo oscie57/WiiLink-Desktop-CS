@@ -12,27 +12,28 @@ namespace WiiLink_Desktop_CS
     internal static class Program
     {
         public static RootConfig Config = new RootConfig();
+        public static FirstConfig FirstConfig = new FirstConfig();
 
         public static string FirstBinURL;
         public static bool maintenance;
 
-        public static void LoadConfig()
+        public static void LoadAppConfig()
         {    
             if (!File.Exists("config.json"))
             {
                 Application.Run(new Form_Settings());
             }
-            else
-            {
-                string configtext = File.ReadAllText("config.json");
-                Config = JsonSerializer.Deserialize<RootConfig>(configtext);
-            }
+
+            string configtext = File.ReadAllText("config.json");
+            Config = JsonSerializer.Deserialize<RootConfig>(configtext);
         }
 
-        public static void GetFirstData()
+        public static void LoadFirstConfig()
         {
             FirstBinURL = $"{Config.ServerURL}/conf/first.bin";
             maintenance = false;
+
+            FirstConfig.Maintenance = false;
         }
 
         /// <summary>
@@ -41,8 +42,8 @@ namespace WiiLink_Desktop_CS
         [STAThread]
         static void Main()
         {
-            LoadConfig();
-            GetFirstData();
+            LoadAppConfig();
+            LoadFirstConfig();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
