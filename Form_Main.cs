@@ -22,5 +22,15 @@ namespace WiiLink_Desktop_CS
         private void Form_Main_Load(object sender, EventArgs e)
         {
         }
+
+        private void Button_Unk2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Button_Unk1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -115,7 +115,9 @@
             this.Button_Unk2.Name = "Button_Unk2";
             this.Button_Unk2.Size = new System.Drawing.Size(152, 117);
             this.Button_Unk2.TabIndex = 4;
+            this.Button_Unk2.Text = "Shows";
             this.Button_Unk2.UseVisualStyleBackColor = false;
+            this.Button_Unk2.Click += new System.EventHandler(this.Button_Unk2_Click);
             // 
             // Button_Unk1
             // 
@@ -127,7 +129,9 @@
             this.Button_Unk1.Name = "Button_Unk1";
             this.Button_Unk1.Size = new System.Drawing.Size(152, 117);
             this.Button_Unk1.TabIndex = 3;
+            this.Button_Unk1.Text = "News";
             this.Button_Unk1.UseVisualStyleBackColor = false;
+            this.Button_Unk1.Click += new System.EventHandler(this.Button_Unk1_Click);
             // 
             // Button_Digicard
             // 

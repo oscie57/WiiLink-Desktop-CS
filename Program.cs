@@ -17,15 +17,18 @@ namespace WiiLink_Desktop_CS
         public static bool maintenance;
 
         public static void LoadConfig()
-        {
+        {    
+            if (!File.Exists("config.json"))
             {
-                Config.WiiNo = "Not Set";
-                Config.WiiType = "Not Set";
-                Config.DiscordID = "729135459405529118";
-                Config.ServerURL = "http://prod.wiilink24.com";
-                Config.PlayAudio = true;
+                Application.Run(new Form_Settings());
+            }
+            else
+            {
+                string configtext = File.ReadAllText("config.json");
+                Config = JsonSerializer.Deserialize<RootConfig>(configtext);
             }
         }
+
         public static void GetFirstData()
         {
             FirstBinURL = $"{Config.ServerURL}/conf/first.bin";

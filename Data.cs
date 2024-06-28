@@ -8,14 +8,22 @@ using System.Text.Json.Serialization;
 
 namespace WiiLink_Desktop_CS
 {
+    public enum WiiType
+    {
+        NotSet = 0,
+        Wii = 1,
+        WiiU = 2,
+        DolphinEmu = 3
+    }
+
     public class RootConfig
     {
         [JsonPropertyName("wiiNo")]
-        public string WiiNo { get; set; }
+        public ulong WiiNo { get; set; }
         [JsonPropertyName("wiiType")]
-        public string WiiType { get; set; }
+        public WiiType WiiType { get; set; }
         [JsonPropertyName("discordID")]
-        public string DiscordID { get; set; }
+        public ulong DiscordID { get; set; }
         [JsonPropertyName("serverURL")]
         public string ServerURL { get; set; }
         [JsonPropertyName("playAudio")]
