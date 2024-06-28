@@ -11,8 +11,8 @@ namespace WiiLink_Desktop_CS
 {
     internal static class Program
     {
-        public static RootConfig Config = new RootConfig();
-        public static FirstConfig FirstConfig = new FirstConfig();
+        public static RootConfig Config = new();
+        public static FirstConfig FirstConfig = new();
 
         public static string FirstBinURL;
         public static bool maintenance;
@@ -21,7 +21,8 @@ namespace WiiLink_Desktop_CS
         {    
             if (!File.Exists("config.json"))
             {
-                Application.Run(new Form_Settings());
+                Form_Settings Form_Settings = new();
+                Form_Settings.ShowDialog();
             }
 
             string configtext = File.ReadAllText("config.json");

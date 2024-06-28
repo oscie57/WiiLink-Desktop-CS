@@ -117,7 +117,6 @@
             Button_Unk2.TabIndex = 4;
             Button_Unk2.Text = "Shows";
             Button_Unk2.UseVisualStyleBackColor = false;
-            Button_Unk2.Click += Button_Unk2_Click;
             // 
             // Button_Unk1
             // 
@@ -131,7 +130,6 @@
             Button_Unk1.TabIndex = 3;
             Button_Unk1.Text = "News";
             Button_Unk1.UseVisualStyleBackColor = false;
-            Button_Unk1.Click += Button_Unk1_Click;
             // 
             // Button_Digicard
             // 
@@ -156,6 +154,7 @@
             Button_Settings.TabIndex = 1;
             Button_Settings.Text = "Settings";
             Button_Settings.UseVisualStyleBackColor = false;
+            Button_Settings.Click += Button_Settings_Click;
             // 
             // Button_Exit
             // 
@@ -168,6 +167,7 @@
             Button_Exit.TabIndex = 0;
             Button_Exit.Text = "Exit";
             Button_Exit.UseVisualStyleBackColor = false;
+            Button_Exit.Click += Button_Exit_Click;
             // 
             // Pic_Poster
             // 
