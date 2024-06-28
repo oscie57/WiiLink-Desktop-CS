@@ -95,6 +95,7 @@ namespace WiiLink_Desktop_CS
             File.WriteAllText("config.json", json);
             MessageBox.Show("Settings saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+            this.Close();
         }
     }
 }

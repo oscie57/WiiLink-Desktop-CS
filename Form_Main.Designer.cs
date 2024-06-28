@@ -108,7 +108,8 @@
             // 
             // Button_Unk2
             // 
-            Button_Unk2.BackColor = System.Drawing.SystemColors.ControlDark;
+            Button_Unk2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            Button_Unk2.Enabled = false;
             Button_Unk2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             Button_Unk2.Font = new System.Drawing.Font("nintendo_NTLG-DB_002", 10F);
             Button_Unk2.Location = new System.Drawing.Point(464, 3);
@@ -120,7 +121,7 @@
             // 
             // Button_Unk1
             // 
-            Button_Unk1.BackColor = System.Drawing.SystemColors.ControlDark;
+            Button_Unk1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             Button_Unk1.Enabled = false;
             Button_Unk1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             Button_Unk1.Font = new System.Drawing.Font("nintendo_NTLG-DB_002", 10F);
@@ -142,6 +143,7 @@
             Button_Digicard.TabIndex = 2;
             Button_Digicard.Text = "Digicard";
             Button_Digicard.UseVisualStyleBackColor = false;
+            Button_Digicard.Click += Button_Digicard_Click;
             // 
             // Button_Settings
             // 

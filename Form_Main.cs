@@ -35,8 +35,14 @@ namespace WiiLink_Desktop_CS
 
         private void Button_Settings_Click(object sender, EventArgs e)
         {
-            Form_Settings settingsForm = new();
-            settingsForm.ShowDialog();
+            Form_Settings Form_Settings = new();
+            Form_Settings.ShowDialog();
+        }
+
+        private void Button_Digicard_Click(object sender, EventArgs e)
+        {
+            Form_Digicard Form_Digicard = new();
+            Form_Digicard.ShowDialog();
         }
     }
 }
