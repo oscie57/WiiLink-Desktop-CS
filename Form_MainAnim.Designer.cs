@@ -38,12 +38,12 @@
             ClientSize = new System.Drawing.Size(624, 441);
             ControlBox = false;
             ForeColor = System.Drawing.Color.White;
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "Form_MainAnim";
             Text = "Main_FormAnim";
-            Load += this.Form_MainAnim_Load;
+            Load += Form_MainAnim_Load;
             ResumeLayout(false);
         }
 

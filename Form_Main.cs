@@ -41,7 +41,6 @@ namespace WiiLink_Desktop_CS
                 BGM_Main1.PlayLooping();
             }
 
-
             Form_MainAnim Form_MainAnim = new();
             Form_MainAnim.ShowDialog();
         }
