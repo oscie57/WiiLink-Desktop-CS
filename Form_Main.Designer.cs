@@ -40,6 +40,7 @@
             Button_Exit = new System.Windows.Forms.Button();
             Pic_Poster = new System.Windows.Forms.PictureBox();
             Pic_Intro = new System.Windows.Forms.PictureBox();
+            Label_Poster = new System.Windows.Forms.Label();
             Panel_TopBg.SuspendLayout();
             Panel_BottomBg.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Pic_Poster).BeginInit();
@@ -177,7 +178,7 @@
             Pic_Poster.BackgroundImage = Properties.Resources.Poster_Dummy;
             Pic_Poster.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             Pic_Poster.ErrorImage = Properties.Resources.Poster_Dummy;
-            Pic_Poster.Location = new System.Drawing.Point(25, 86);
+            Pic_Poster.Location = new System.Drawing.Point(25, 96);
             Pic_Poster.Name = "Pic_Poster";
             Pic_Poster.Size = new System.Drawing.Size(128, 180);
             Pic_Poster.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -197,6 +198,19 @@
             Pic_Intro.TabIndex = 3;
             Pic_Intro.TabStop = false;
             // 
+            // Label_Poster
+            // 
+            Label_Poster.AutoSize = true;
+            Label_Poster.Location = new System.Drawing.Point(10, 69);
+            Label_Poster.MaximumSize = new System.Drawing.Size(160, 15);
+            Label_Poster.MinimumSize = new System.Drawing.Size(160, 15);
+            Label_Poster.Name = "Label_Poster";
+            Label_Poster.Size = new System.Drawing.Size(160, 15);
+            Label_Poster.TabIndex = 4;
+            Label_Poster.Text = "Loading posters...";
+            Label_Poster.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            Label_Poster.Click += label1_Click;
+            // 
             // Form_Main
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -204,6 +218,7 @@
             BackColor = System.Drawing.Color.FromArgb(224, 224, 224);
             ClientSize = new System.Drawing.Size(624, 441);
             ControlBox = false;
+            Controls.Add(Label_Poster);
             Controls.Add(Pic_Intro);
             Controls.Add(Pic_Poster);
             Controls.Add(Panel_BottomBg);
@@ -222,6 +237,7 @@
             ((System.ComponentModel.ISupportInitialize)Pic_Poster).EndInit();
             ((System.ComponentModel.ISupportInitialize)Pic_Intro).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -238,6 +254,7 @@
         private System.Windows.Forms.Label Label_WiiNoTitle;
         private System.Windows.Forms.Label Label_ConsoleTypeValue;
         private System.Windows.Forms.Label Label_WiiNoValue;
+        private System.Windows.Forms.Label Label_Poster;
     }
 }
 

@@ -17,8 +17,6 @@ namespace WiiLink_Desktop_CS
 {
     public partial class Form_Main : Form
     {
-        Options Options = Program.Options;
-
         SoundPlayer BGM_Main1 = Program.BGM_Main1;
         SoundPlayer BGM_Main2 = Program.BGM_Main2;
         SoundPlayer BGM_Settings = Program.BGM_Settings;
@@ -30,13 +28,44 @@ namespace WiiLink_Desktop_CS
 
         }
 
+        public static async Task ProcessPosterList(string URL, List<PosterMeta> PosterList, PictureBox Pic_Poster, Label Label_Poster)
+        {
+            while (true)
+            {
+                foreach (PosterMeta Poster in PosterList)
+                {
+                    string PosterURL = $"{URL}/wall/{Poster.posterid}.img";
+                    Pic_Poster.LoadAsync(PosterURL);
+                    Label_Poster.Text = Poster.title;
+
+                    // Asynchronously wait for 1 second to avoid a tight infinite loop
+                    await Task.Delay(10000);
+                }
+            }
+        }
+
         private async void Form_Main_Load(object sender, EventArgs e)
         {
+            Label_WiiNoValue.Text = Program.Options.WiiNo.ToString().Insert(4, " ").Insert(9, " ").Insert(14, " ").Insert(19, " ");
+            switch (Program.Options.WiiType)
+            {
+                case WiiType.Wii:
+                    Label_ConsoleTypeValue.Text = "Wii";
+                    break;
+                case WiiType.WiiU:
+                    Label_ConsoleTypeValue.Text = "Wii U";
+                    break;
+                case WiiType.DolphinEmu:
+                    Label_ConsoleTypeValue.Text = "Dolphin";
+                    break;
+                default:
+                    Label_ConsoleTypeValue.Text = Program.Options.WiiType.ToString();
+                    break;
+            }
 
-            Label_WiiNoValue.Text = Options.WiiNo.ToString().Insert(4, " ").Insert(9, " ").Insert(14, " ").Insert(19, " ");
-            Label_ConsoleTypeValue.Text = Options.WiiType.ToString();
+            await ProcessPosterList(Program.Config.url1, Program.PosterMetaList, Pic_Poster, Label_Poster);
 
-            if (Options.PlayAudio )
+            if (Program.Options.PlayAudio)
             {
                 BGM_Main1.PlayLooping();
             }
@@ -60,6 +89,11 @@ namespace WiiLink_Desktop_CS
         {
             Form_Digicard Form_Digicard = new();
             Form_Digicard.ShowDialog();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

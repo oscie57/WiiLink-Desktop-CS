@@ -113,7 +113,7 @@ namespace WiiLink_Desktop_CS
         [XmlElement(ElementName = "seq")]
         public int seq { get; set; }
         [XmlElement(ElementName = "cntid")]
-        public int cntid { get; set; }
+        public string cntid { get; set; }
         [XmlElement(ElementName = "cnttype")]
         public int cnttype { get; set; }
         [XmlElement(ElementName = "random")]
@@ -144,5 +144,20 @@ namespace WiiLink_Desktop_CS
         public int seq { get; set; }
         [XmlElement(ElementName = "miiid")]
         public int miiid { get; set; }
+    }
+
+    [XmlRoot(ElementName = "PosterMeta")]
+    public class PosterMeta
+    {
+        [XmlElement(ElementName = "ver")]
+        public ushort ver { get; set; }
+        [XmlElement(ElementName = "posterid")]
+        public int posterid { get; set; }
+        [XmlElement(ElementName = "msg")]
+        public string msg { get; set; }
+        [XmlElement(ElementName = "movieid")]
+        public int movieid { get; set; }
+        [XmlElement(ElementName = "title")]
+        public string title { get; set; }
     }
 }

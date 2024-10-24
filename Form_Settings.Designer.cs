@@ -61,7 +61,7 @@
             // Label_WiiNo
             // 
             Label_WiiNo.AutoSize = true;
-            Label_WiiNo.Font = new System.Drawing.Font("nintendo_NTLG-DB_002", 12F);
+            Label_WiiNo.Font = new System.Drawing.Font("nintendo_NTLG-DB_002", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             Label_WiiNo.Location = new System.Drawing.Point(16, 23);
             Label_WiiNo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             Label_WiiNo.Name = "Label_WiiNo";
