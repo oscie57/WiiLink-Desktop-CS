@@ -178,7 +178,7 @@
             Pic_Poster.BackgroundImage = Properties.Resources.Poster_Dummy;
             Pic_Poster.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             Pic_Poster.ErrorImage = Properties.Resources.Poster_Dummy;
-            Pic_Poster.Location = new System.Drawing.Point(25, 96);
+            Pic_Poster.Location = new System.Drawing.Point(25, 100);
             Pic_Poster.Name = "Pic_Poster";
             Pic_Poster.Size = new System.Drawing.Size(128, 180);
             Pic_Poster.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -201,11 +201,12 @@
             // Label_Poster
             // 
             Label_Poster.AutoSize = true;
-            Label_Poster.Location = new System.Drawing.Point(10, 69);
-            Label_Poster.MaximumSize = new System.Drawing.Size(160, 15);
-            Label_Poster.MinimumSize = new System.Drawing.Size(160, 15);
+            Label_Poster.Font = new System.Drawing.Font("nintendo_NTLG-DB_002", 9.749998F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            Label_Poster.Location = new System.Drawing.Point(10, 67);
+            Label_Poster.MaximumSize = new System.Drawing.Size(160, 20);
+            Label_Poster.MinimumSize = new System.Drawing.Size(160, 20);
             Label_Poster.Name = "Label_Poster";
-            Label_Poster.Size = new System.Drawing.Size(160, 15);
+            Label_Poster.Size = new System.Drawing.Size(160, 20);
             Label_Poster.TabIndex = 4;
             Label_Poster.Text = "Loading posters...";
             Label_Poster.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
