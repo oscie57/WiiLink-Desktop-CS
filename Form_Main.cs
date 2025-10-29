@@ -36,7 +36,9 @@ namespace WiiLink_Desktop_CS
                 {
                     string PosterURL = $"{URL}/wall/{Poster.posterid}.img";
                     Pic_Poster.LoadAsync(PosterURL);
-                    Label_Poster.Text = Poster.title;
+                    // i decided to swap the msg and the title because
+                    // msg displays above the poster in-channel
+                    Label_Poster.Text = Poster.msg;
 
                     // Asynchronously wait for 1 second to avoid a tight infinite loop
                     await Task.Delay(10000);
