@@ -125,7 +125,7 @@ namespace WiiLink_Desktop_CS
             Application.EnableVisualStyles();  // Enables visual styles
             Application.SetCompatibleTextRenderingDefault(false);  // Sets the text rendering to be compatible with the system
 
-            if ( !Config.maint)  // If the server is not in maintenance mode
+            if ( !Config.maint )  // If the server is not in maintenance mode
             {
                 Application.Run(new Form_Main());  // Runs the main form
             }
