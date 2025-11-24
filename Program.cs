@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
+using System.Media;
+using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Text.Json;
-using System.IO;
-using System.Text.Json.Serialization;
-using System.Media;
-using System.Net;
-using System.Drawing.Text;
-using System.Net.Http;
 using System.Xml.Serialization;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 namespace WiiLink_Desktop_CS
 {
@@ -31,7 +26,7 @@ namespace WiiLink_Desktop_CS
         public static SoundPlayer BGM_Theatre = new(Properties.Resources.BGM_Theatre);
 
         public static void LoadAppConfig()  // Loads App Configuration
-        {    
+        {
             if (!File.Exists("config.json"))  // Checks if the config file does not exist
             {
                 Form_Settings Form_Settings = new();  // Makes a new instance of the Settings Form
@@ -63,6 +58,7 @@ namespace WiiLink_Desktop_CS
 
                 using TextReader Reader = new StringReader(DecryptedXML);
                 Config = (Config)FirstSerializer.Deserialize(Reader);
+
                 return true;
             }
             catch (Exception e)
@@ -81,7 +77,7 @@ namespace WiiLink_Desktop_CS
                 EventResponse.EnsureSuccessStatusCode();
 
                 // Read the today.xml content and deserialize it into the Event object
-                var XML = EventResponse.Content.ReadAsStringAsync();
+                var XML = await EventResponse.Content.ReadAsStringAsync();
 
                 XmlSerializer EventSerializer = new(typeof(Event));
 
@@ -106,6 +102,8 @@ namespace WiiLink_Desktop_CS
                         PosterMetaList.Add(PosterMeta);
                     }
                 }
+
+                return true;
             }
             catch (Exception e)
             {
@@ -123,18 +121,39 @@ namespace WiiLink_Desktop_CS
             Application.EnableVisualStyles();  // Enables visual styles
             Application.SetCompatibleTextRenderingDefault(false);  // Sets the text rendering to be compatible with the system
 
-            LoadAppConfig();  // Loads config.json into the Options object
-            GetXMLConfig_First();  // Obtains and loads the XML configuration to the Config object
-
+            // Setup HttpClient User-Agent
             HttpClient.DefaultRequestHeaders.UserAgent.Add(new("Gex", "4"));
-            var task = Task.Run(async () => await GetXMLConfig_Event());
+            bool success;
+
+            LoadAppConfig();  // Loads config.json into the Options object
+
+            // Fetch and process the Config
+            var task = Task.Run(async () => await GetXMLConfig_First());
             task.Wait();
-            var success = task.Result;
+            success = task.Result;
 
-            if ( Config.maint )  // If the server is not in maintenance mode
+            if (!success)
             {
-                GetXMLConfig_Event();  // Obtains and loads the event XML configuration to the Event object
+                // TODO: pass the error information
+                Application.Run(new Form_Error());  // Displays the error form
+                return;
+            }
 
+            // Fetch and process the Event
+            task = Task.Run(async () => await GetXMLConfig_Event());
+            task.Wait();
+            success = task.Result;
+
+            if (!success)
+            {
+                // TODO: pass the error information
+                Application.Run(new Form_Error());  // Displays the error form
+                return;
+            }
+
+            // run the shit
+            if (!Config.maint)  // If the server is not in maintenance mode
+            {
                 Application.Run(new Form_Main());  // Runs the main form
             }
             else  // If the server is in maintenance mode

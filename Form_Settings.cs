@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Media;
-using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WiiLink_Desktop_CS
@@ -58,7 +50,7 @@ namespace WiiLink_Desktop_CS
         private void Button_Save_Click(object sender, EventArgs e)
         {
             // check all fields are filled 
-            if ( string.IsNullOrEmpty(Text_WiiNo.Text) || string.IsNullOrEmpty(Combo_WiiType.Text) || string.IsNullOrEmpty(Text_DiscordID.Text) || string.IsNullOrEmpty(Text_ServerURL.Text) )
+            if (string.IsNullOrEmpty(Text_WiiNo.Text) || string.IsNullOrEmpty(Combo_WiiType.Text) || string.IsNullOrEmpty(Text_DiscordID.Text) || string.IsNullOrEmpty(Text_ServerURL.Text))
             {
                 MessageBox.Show("Please fill in all fields", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -67,25 +59,25 @@ namespace WiiLink_Desktop_CS
             // remove spaces from WiiNo
             string WiiNoFix = Text_WiiNo.Text.Replace(" ", "");
             // check if WiiNo and DiscordID are numbers
-            if ( !ulong.TryParse(WiiNoFix, out _) || !ulong.TryParse(Text_DiscordID.Text, out _) )
+            if (!ulong.TryParse(WiiNoFix, out _) || !ulong.TryParse(Text_DiscordID.Text, out _))
             {
                 MessageBox.Show("Please enter a valid number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             // check if WiiNo is 16 digits
-            if ( WiiNoFix.Length != 16 )
+            if (WiiNoFix.Length != 16)
             {
                 MessageBox.Show("Please enter a 16 digit number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             // check if ServerURL is a valid URL
-            if ( !Uri.IsWellFormedUriString(Text_ServerURL.Text, UriKind.Absolute) )
+            if (!Uri.IsWellFormedUriString(Text_ServerURL.Text, UriKind.Absolute))
             {
                 MessageBox.Show("Please enter a valid URL", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             // check if WiiType is selected
-            if ( Combo_WiiType.SelectedIndex == -1 )
+            if (Combo_WiiType.SelectedIndex == -1)
             {
                 MessageBox.Show("Please select a Wii Type", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
