@@ -42,73 +42,75 @@ namespace WiiLink_Desktop_CS
             Options = JsonSerializer.Deserialize<Options>(configtext);  // Deserialises the JSON and puts it into the Options object
         }
 
-        public static async void GetXMLConfig_First()
+        public static async Task<bool> GetXMLConfig_First()
         {
-            // Define the key and IV for first.bin
-            byte[] FIRST_BIN_KEY = [0x94, 0x3B, 0x13, 0xDD, 0x87, 0x46, 0x8B, 0xA5, 0xD9, 0xB7, 0xA8, 0xB8, 0x99, 0xF9, 0x18, 0x03];
-            byte[] FIRST_BIN_IV = [0x66, 0xB3, 0x3F, 0xC1, 0x37, 0x3F, 0xE5, 0x06, 0xEC, 0x2B, 0x59, 0xFB, 0x6B, 0x97, 0x7C, 0x82];
-
-            // Define information for first.bin
-            string FirstBinURL = $"{Options.ServerURL}/conf/first.bin";  // Set the URL for first.bin
-
-            // Create a new HttpClient for first.bin and input information
-            HttpClient FirstClient = new();
-            FirstClient.BaseAddress = new Uri(FirstBinURL);
-            FirstClient.DefaultRequestHeaders.UserAgent.Add(new("Gex", "4"));
-
-            // Get the first.bin file and ensure it is successful
-            HttpResponseMessage FirstResponse = FirstClient.GetAsync(FirstClient.BaseAddress).Result;
-            FirstResponse.EnsureSuccessStatusCode();
-            
-            // Decrypt the first.bin
-            byte[] EncryptedXML = await FirstResponse.Content.ReadAsByteArrayAsync();
-
-            AesHelper AesHelper = new(FIRST_BIN_KEY, FIRST_BIN_IV);
-            string DecryptedXML = AesHelper.Decrypt(EncryptedXML);
-
-            // Serialise the file into the Config object
-            XmlSerializer FirstSerializer = new(typeof(Config));
-
-            using (TextReader Reader = new StringReader(DecryptedXML))
+            try
             {
+                // Define the key and IV for first.bin
+                byte[] FIRST_BIN_KEY = [0x94, 0x3B, 0x13, 0xDD, 0x87, 0x46, 0x8B, 0xA5, 0xD9, 0xB7, 0xA8, 0xB8, 0x99, 0xF9, 0x18, 0x03];
+                byte[] FIRST_BIN_IV = [0x66, 0xB3, 0x3F, 0xC1, 0x37, 0x3F, 0xE5, 0x06, 0xEC, 0x2B, 0x59, 0xFB, 0x6B, 0x97, 0x7C, 0x82];
+
+                // Get the first.bin file and ensure it is successful
+                string FirstBinURL = $"{Options.ServerURL}/conf/first.bin";  // Set the URL for first.bin
+                HttpResponseMessage FirstResponse = await HttpClient.GetAsync(FirstBinURL);
+                FirstResponse.EnsureSuccessStatusCode();
+
+                // Read the first.bin content, decrypt it, and deserialize it into the Config object
+                byte[] EncryptedXML = await FirstResponse.Content.ReadAsByteArrayAsync();
+                AesHelper AesHelper = new(FIRST_BIN_KEY, FIRST_BIN_IV);
+                string DecryptedXML = AesHelper.Decrypt(EncryptedXML);
+                XmlSerializer FirstSerializer = new(typeof(Config));
+
+                using TextReader Reader = new StringReader(DecryptedXML);
                 Config = (Config)FirstSerializer.Deserialize(Reader);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(e);
+                return false;
             }
         }
         public static async Task<bool> GetXMLConfig_Event()
         {
-            // Define information for today.xml
-
-            // Get the today.xml file and ensure it is successful
-            string EventURL = $"{Config.url1}/event/today.xml";
-            var EventResponse = await HttpClient.GetAsync(EventURL);
-            EventResponse.EnsureSuccessStatusCode();
-
-            // Read the today.xml content and deserialize it into the Event object
-            var XML = EventResponse.Content.ReadAsStringAsync();
-
-            XmlSerializer EventSerializer = new(typeof(Event));
-
-            using (TextReader Reader = new StringReader(XML))
+            try
             {
-                Event = (Event)EventSerializer.Deserialize(Reader);
-            }
+                // Get the today.xml file and ensure it is successful
+                string EventURL = $"{Config.url1}/event/today.xml";
+                var EventResponse = await HttpClient.GetAsync(EventURL);
+                EventResponse.EnsureSuccessStatusCode();
 
-            foreach (posterinfo PosterInfo in Event.posterinfo)
-            {
-                var PosterURL = $"{Config.url1}/wall/{PosterInfo.posterid}.met";
-                var PosterResponse = await HttpClient.GetAsync(PosterURL);
-                PosterResponse.EnsureSuccessStatusCode();
+                // Read the today.xml content and deserialize it into the Event object
+                var XML = EventResponse.Content.ReadAsStringAsync();
 
-                var PosterXML = await PosterResponse.Content.ReadAsStringAsync();
+                XmlSerializer EventSerializer = new(typeof(Event));
 
-                XmlSerializer PosterSerializer = new(typeof(PosterMeta));
-
-                using (TextReader Reader = new StringReader(PosterXML))
+                using (TextReader Reader = new StringReader(XML))
                 {
-                    PosterMeta PosterMeta = (PosterMeta)PosterSerializer.Deserialize(Reader);
-                    PosterMetaList.Add(PosterMeta);
+                    Event = (Event)EventSerializer.Deserialize(Reader);
                 }
 
+                foreach (posterinfo PosterInfo in Event.posterinfo)
+                {
+                    var PosterURL = $"{Config.url1}/wall/{PosterInfo.posterid}.met";
+                    var PosterResponse = await HttpClient.GetAsync(PosterURL);
+                    PosterResponse.EnsureSuccessStatusCode();
+
+                    var PosterXML = await PosterResponse.Content.ReadAsStringAsync();
+
+                    XmlSerializer PosterSerializer = new(typeof(PosterMeta));
+
+                    using (TextReader Reader = new StringReader(PosterXML))
+                    {
+                        PosterMeta PosterMeta = (PosterMeta)PosterSerializer.Deserialize(Reader);
+                        PosterMetaList.Add(PosterMeta);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(e);
+                return false;
             }
         }
 
@@ -129,7 +131,7 @@ namespace WiiLink_Desktop_CS
             task.Wait();
             var success = task.Result;
 
-            if ( !Config.maint )  // If the server is not in maintenance mode
+            if ( Config.maint )  // If the server is not in maintenance mode
             {
                 GetXMLConfig_Event();  // Obtains and loads the event XML configuration to the Event object
 
