@@ -23,6 +23,8 @@ namespace WiiLink_Desktop_CS
 
         public static List<PosterMeta> PosterMetaList = new List<PosterMeta>();
 
+        public static HttpClient HttpClient = new();
+
         public static SoundPlayer BGM_Main1 = new(Properties.Resources.BGM_Main1);
         public static SoundPlayer BGM_Main2 = new(Properties.Resources.BGM_Main2);
         public static SoundPlayer BGM_Settings = new(Properties.Resources.BGM_Settings);
@@ -40,7 +42,7 @@ namespace WiiLink_Desktop_CS
             Options = JsonSerializer.Deserialize<Options>(configtext);  // Deserialises the JSON and puts it into the Options object
         }
 
-        public static async void GetXMLConfig()
+        public static async void GetXMLConfig_First()
         {
             // Define the key and IV for first.bin
             byte[] FIRST_BIN_KEY = [0x94, 0x3B, 0x13, 0xDD, 0x87, 0x46, 0x8B, 0xA5, 0xD9, 0xB7, 0xA8, 0xB8, 0x99, 0xF9, 0x18, 0x03];
@@ -71,17 +73,18 @@ namespace WiiLink_Desktop_CS
             {
                 Config = (Config)FirstSerializer.Deserialize(Reader);
             }
+        }
+        public static async Task<bool> GetXMLConfig_Event()
+        {
+            // Define information for today.xml
 
-            // Get the event information
+            // Get the today.xml file and ensure it is successful
             string EventURL = $"{Config.url1}/event/today.xml";
-            HttpClient EventClient = new();
-            EventClient.BaseAddress = new Uri(EventURL);
-            EventClient.DefaultRequestHeaders.UserAgent.Add(new("Gex", "4"));
-
-            HttpResponseMessage EventResponse = EventClient.GetAsync(EventClient.BaseAddress).Result;
+            var EventResponse = await HttpClient.GetAsync(EventURL);
             EventResponse.EnsureSuccessStatusCode();
 
-            string XML = EventResponse.Content.ReadAsStringAsync().Result;
+            // Read the today.xml content and deserialize it into the Event object
+            var XML = EventResponse.Content.ReadAsStringAsync();
 
             XmlSerializer EventSerializer = new(typeof(Event));
 
@@ -92,15 +95,11 @@ namespace WiiLink_Desktop_CS
 
             foreach (posterinfo PosterInfo in Event.posterinfo)
             {
-                string PosterURL = $"{Config.url1}/wall/{PosterInfo.posterid}.met";
-                HttpClient PosterClient = new();
-                PosterClient.BaseAddress = new Uri(PosterURL);
-                PosterClient.DefaultRequestHeaders.UserAgent.Add(new("Gex", "4"));
-
-                HttpResponseMessage PosterResponse = PosterClient.GetAsync(PosterClient.BaseAddress).Result;
+                var PosterURL = $"{Config.url1}/wall/{PosterInfo.posterid}.met";
+                var PosterResponse = await HttpClient.GetAsync(PosterURL);
                 PosterResponse.EnsureSuccessStatusCode();
 
-                string PosterXML = await PosterResponse.Content.ReadAsStringAsync();
+                var PosterXML = await PosterResponse.Content.ReadAsStringAsync();
 
                 XmlSerializer PosterSerializer = new(typeof(PosterMeta));
 
@@ -109,7 +108,7 @@ namespace WiiLink_Desktop_CS
                     PosterMeta PosterMeta = (PosterMeta)PosterSerializer.Deserialize(Reader);
                     PosterMetaList.Add(PosterMeta);
                 }
-                
+
             }
         }
 
@@ -119,14 +118,21 @@ namespace WiiLink_Desktop_CS
         [STAThread]
         static void Main()  // The main function that runs on boot
         {
-            LoadAppConfig();  // Loads config.json into the Options object
-            GetXMLConfig();  // Obtains and loads the XML configuration to the Config and Event objects
-
             Application.EnableVisualStyles();  // Enables visual styles
             Application.SetCompatibleTextRenderingDefault(false);  // Sets the text rendering to be compatible with the system
 
+            LoadAppConfig();  // Loads config.json into the Options object
+            GetXMLConfig_First();  // Obtains and loads the XML configuration to the Config object
+
+            HttpClient.DefaultRequestHeaders.UserAgent.Add(new("Gex", "4"));
+            var task = Task.Run(async () => await GetXMLConfig_Event());
+            task.Wait();
+            var success = task.Result;
+
             if ( !Config.maint )  // If the server is not in maintenance mode
             {
+                GetXMLConfig_Event();  // Obtains and loads the event XML configuration to the Event object
+
                 Application.Run(new Form_Main());  // Runs the main form
             }
             else  // If the server is in maintenance mode
