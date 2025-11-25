@@ -1,6 +1,8 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Media;
 using System.Net.Http;
 using System.Text.Json;
@@ -16,9 +18,9 @@ namespace WiiLink_Desktop_CS
         public static Config Config = new();
         public static Event Event = new();
 
-        public static List<PosterMeta> PosterMetaList = new List<PosterMeta>();
+        public static List<PosterMeta> PosterMetaList = new();
 
-        public static HttpClient HttpClient = new();
+        public static readonly HttpClient HttpClient = new();
 
         public static SoundPlayer BGM_Main1 = new(Properties.Resources.BGM_Main1);
         public static SoundPlayer BGM_Main2 = new(Properties.Resources.BGM_Main2);
@@ -37,7 +39,7 @@ namespace WiiLink_Desktop_CS
             Options = JsonSerializer.Deserialize<Options>(configtext);  // Deserialises the JSON and puts it into the Options object
         }
 
-        public static async Task<bool> GetXMLConfig_First()
+        public static async Task<string?> GetXMLConfig_First()
         {
             try
             {
@@ -59,15 +61,15 @@ namespace WiiLink_Desktop_CS
                 using TextReader Reader = new StringReader(DecryptedXML);
                 Config = (Config)FirstSerializer.Deserialize(Reader);
 
-                return true;
+                return null;
             }
             catch (Exception e)
             {
                 Console.Error.WriteLine(e);
-                return false;
+                return e.ToString();
             }
         }
-        public static async Task<bool> GetXMLConfig_Event()
+        public static async Task<string?> GetXMLConfig_Event()
         {
             try
             {
@@ -86,9 +88,8 @@ namespace WiiLink_Desktop_CS
                     Event = (Event)EventSerializer.Deserialize(Reader);
                 }
 
-                foreach (posterinfo PosterInfo in Event.posterinfo)
+                foreach (var PosterURL in Event.posterinfo.Select(posterInfo => $"{Config.url1}/wall/{posterInfo.posterid}.met"))
                 {
-                    var PosterURL = $"{Config.url1}/wall/{PosterInfo.posterid}.met";
                     var PosterResponse = await HttpClient.GetAsync(PosterURL);
                     PosterResponse.EnsureSuccessStatusCode();
 
@@ -96,19 +97,17 @@ namespace WiiLink_Desktop_CS
 
                     XmlSerializer PosterSerializer = new(typeof(PosterMeta));
 
-                    using (TextReader Reader = new StringReader(PosterXML))
-                    {
-                        PosterMeta PosterMeta = (PosterMeta)PosterSerializer.Deserialize(Reader);
-                        PosterMetaList.Add(PosterMeta);
-                    }
+                    using TextReader Reader = new StringReader(PosterXML);
+                    var PosterMeta = (PosterMeta)PosterSerializer.Deserialize(Reader);
+                    PosterMetaList.Add(PosterMeta);
                 }
 
-                return true;
+                return null;
             }
             catch (Exception e)
             {
                 Console.Error.WriteLine(e);
-                return false;
+                return e.ToString();
             }
         }
 
@@ -123,31 +122,28 @@ namespace WiiLink_Desktop_CS
 
             // Setup HttpClient User-Agent
             HttpClient.DefaultRequestHeaders.UserAgent.Add(new("Gex", "4"));
-            bool success;
 
             LoadAppConfig();  // Loads config.json into the Options object
-
+            string? error = null;
             // Fetch and process the Config
             var task = Task.Run(async () => await GetXMLConfig_First());
             task.Wait();
-            success = task.Result;
+            error = task.Result;
 
-            if (!success)
+            if (error is not null)
             {
-                // TODO: pass the error information
-                Application.Run(new Form_Error());  // Displays the error form
+                Application.Run(new Form_Error {ErrorMessage = error});  // Displays the error form
                 return;
             }
 
             // Fetch and process the Event
             task = Task.Run(async () => await GetXMLConfig_Event());
             task.Wait();
-            success = task.Result;
+            error = task.Result;
 
-            if (!success)
+            if (error is not null)
             {
-                // TODO: pass the error information
-                Application.Run(new Form_Error());  // Displays the error form
+                Application.Run(new Form_Error {ErrorMessage = error});  // Displays the error form
                 return;
             }
 
@@ -158,7 +154,7 @@ namespace WiiLink_Desktop_CS
             }
             else  // If the server is in maintenance mode
             {
-                Application.Run(new Form_Error());  // Displays the error form
+                Application.Run(new Form_Error {ErrorMessage = "Server is in maintenance mode"});  // Displays the error form
             }
         }
     }

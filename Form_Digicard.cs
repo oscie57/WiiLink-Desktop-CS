@@ -37,13 +37,13 @@ namespace WiiLink_Desktop_CS
                 BGM_Theatre.PlayLooping();
             }
 
-            ulong DiscordID = Options.DiscordID;
-            string Randomizer = new Random().ToString();
-            string CardURL = $"https://card.wiilink24.com/cards/{DiscordID}.jpg?randomizer={Randomizer}";
+            var discordId = Options.DiscordID;
+            var randomizer = Random.Shared.Next(0, 1000000).ToString();
+            var cardUrl = $"https://card.wiilink24.com/cards/{discordId}.jpg?randomizer={randomizer}";
 
-            Label_ID.Text = "Discord ID: " + DiscordID.ToString();
-
-            Pic_Card.LoadAsync(CardURL);
+            Label_ID.Text = $"Discord ID: {discordId}";
+            
+            Pic_Card.LoadAsync(cardUrl);
         }
     }
 }

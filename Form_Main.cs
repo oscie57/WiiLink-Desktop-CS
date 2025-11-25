@@ -16,23 +16,20 @@ namespace WiiLink_Desktop_CS
         public Form_Main()
         {
             InitializeComponent();
-
         }
 
         public static async Task ProcessPosterList(string URL, List<PosterMeta> PosterList, PictureBox Pic_Poster, Label Label_Poster)
         {
             while (true)
             {
-                foreach (PosterMeta Poster in PosterList)
+                foreach (var Poster in PosterList)
                 {
-                    string PosterURL = $"{URL}/wall/{Poster.posterid}.img";
-                    Pic_Poster.LoadAsync(PosterURL);
+                    var posterUrl = $"{URL}/wall/{Poster.posterid}.img";
+                    Pic_Poster.LoadAsync(posterUrl);
                     // i decided to swap the msg and the title because
                     // msg displays above the poster in-channel
                     Label_Poster.Text = Poster.msg;
-
-                    // Asynchronously wait for 1 second to avoid a tight infinite loop
-                    await Task.Delay(10000);
+                    await Task.Delay(10_000); //10s delay
                 }
             }
         }
@@ -40,23 +37,17 @@ namespace WiiLink_Desktop_CS
         private async void Form_Main_Load(object sender, EventArgs e)
         {
             Label_WiiNoValue.Text = Program.Options.WiiNo.ToString().Insert(4, " ").Insert(9, " ").Insert(14, " ").Insert(19, " ");
-            switch (Program.Options.WiiType)
+            Label_ConsoleTypeValue.Text = Program.Options.WiiType switch
             {
-                case WiiType.Wii:
-                    Label_ConsoleTypeValue.Text = "Wii";
-                    break;
-                case WiiType.WiiU:
-                    Label_ConsoleTypeValue.Text = "Wii U";
-                    break;
-                case WiiType.DolphinEmu:
-                    Label_ConsoleTypeValue.Text = "Dolphin";
-                    break;
-                default:
-                    Label_ConsoleTypeValue.Text = Program.Options.WiiType.ToString();
-                    break;
-            }
-
-            await ProcessPosterList(Program.Config.url1, Program.PosterMetaList, Pic_Poster, Label_Poster);
+                WiiType.Wii => "Wii",
+                WiiType.WiiU => "Wii U",
+                WiiType.DolphinEmu => "Dolphin",
+                _ => Program.Options.WiiType.ToString()
+            };
+            Task.Run(async () =>
+            {
+                await ProcessPosterList(Program.Config.url1, Program.PosterMetaList, Pic_Poster, Label_Poster);
+            });
 
             if (Program.Options.PlayAudio)
             {

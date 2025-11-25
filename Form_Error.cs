@@ -12,13 +12,10 @@ namespace WiiLink_Desktop_CS
             InitializeComponent();
         }
 
+        public string ErrorMessage { get; set; } = "";
         private void Form_Error_Load(object sender, EventArgs e)
         {
-            label_debug_text.Text = """
-                1 dpmo
-                2 dpmo
-                3 dpmo
-                """;
+            label_debug_text.Text = ErrorMessage;
         }
     }
 }

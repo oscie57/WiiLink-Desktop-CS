@@ -7,8 +7,7 @@ namespace WiiLink_Desktop_CS
 {
     public partial class Form_MainAnim : Form
     {
-        System.Windows.Forms.Timer AnimationTimer = new();
-        Options Options = Program.Options;
+        Timer AnimationTimer = new();
 
         public Form_MainAnim()
         {
@@ -20,24 +19,15 @@ namespace WiiLink_Desktop_CS
             ForeColor = Color.White;
             BackColor = Color.Black;
 
-            if (DateTime.Now.Hour >= 6 && DateTime.Now.Hour < 12)
+            BackColor = DateTime.Now.Hour switch
             {
-                BackColor = Color.LightSkyBlue;
-            }
-            else if (DateTime.Now.Hour >= 12 && DateTime.Now.Hour < 18)
-            {
-                BackColor = Color.LightGoldenrodYellow;
-            }
-            else if (DateTime.Now.Hour >= 18 && DateTime.Now.Hour < 21)
-            {
-                BackColor = Color.LightSalmon;
-            }
-            else
-            {
-                BackColor = Color.MidnightBlue;
-            }
+                >= 6 and < 12 => Color.LightSkyBlue,
+                >= 12 and < 18 => Color.LightGoldenrodYellow,
+                >= 18 and < 21 => Color.LightSalmon,
+                _ => Color.MidnightBlue
+            };
 
-            string DateFormatted = DateTime.Now.ToString(" dd / MM ");
+            var DateFormatted = DateTime.Now.ToString(" dd / MM ");
 
             Label Label_DateText = new()
             {
@@ -47,19 +37,19 @@ namespace WiiLink_Desktop_CS
                 BackColor = BackColor,
                 Location = new(0, -40),
                 TextAlign = ContentAlignment.MiddleCenter,
-                Size = new(this.Width, this.Height)
+                Size = new(Width, Height)
             };
 
             Panel Panel_Cover = new()
             {
-                Size = new(this.Width, this.Height),
+                Size = new(Width, Height),
                 BackColor = BackColor,
                 ForeColor = ForeColor,
                 Location = new(0, 0)
             };
 
-            this.Controls.Add(Panel_Cover);
-            this.Controls.Add(Label_DateText);
+            Controls.Add(Panel_Cover);
+            Controls.Add(Label_DateText);
 
             Panel_Cover.BringToFront();
             Label_DateText.BringToFront();
@@ -70,20 +60,20 @@ namespace WiiLink_Desktop_CS
             if (Opacity <= 0)     //check if opacity is 0
             {
                 AnimationTimer.Stop();    //if it is, we stop the timer
-                this.Close();   //and we try to close the form
+                Close();   //and we try to close the form
             }
             else
-                Opacity -= 0.05;
+            {
+                Opacity -= 0.0125;
+            }
         }
 
         private async void Form_MainAnim_Load(object sender, EventArgs e)
         {
             StartupAnimation();
-
-            await Task.Delay(2000);
-
-            AnimationTimer.Interval = 100;
-            AnimationTimer.Tick += new EventHandler(AnimationFadeOut);
+            await Task.Delay(2000); // Intentional pause pre animation
+            AnimationTimer.Interval = 25; // 25ms per 0.0125 (1.25%) gives us 2 000ms of animation at roughly 40fps (80 frames)
+            AnimationTimer.Tick += AnimationFadeOut;
             AnimationTimer.Start();
         }
     }

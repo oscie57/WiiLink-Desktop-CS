@@ -31,9 +31,9 @@ namespace WiiLink_Desktop_CS
 
             if (File.Exists("config.json"))
             {
-                string configtext = File.ReadAllText("config.json");
-                Options = JsonSerializer.Deserialize<Options>(configtext);
-
+                var configText = File.ReadAllText("config.json");
+                Options = JsonSerializer.Deserialize<Options>(configText);
+                Program.Options = Options;
                 Text_WiiNo.Text = Options.WiiNo.ToString();
                 Combo_WiiType.SelectedIndex = (int)Options.WiiType;
                 Text_DiscordID.Text = Options.DiscordID.ToString();
@@ -57,15 +57,15 @@ namespace WiiLink_Desktop_CS
             }
 
             // remove spaces from WiiNo
-            string WiiNoFix = Text_WiiNo.Text.Replace(" ", "");
+            var wiiNoFix = Text_WiiNo.Text.Replace(" ", "");
             // check if WiiNo and DiscordID are numbers
-            if (!ulong.TryParse(WiiNoFix, out _) || !ulong.TryParse(Text_DiscordID.Text, out _))
+            if (!ulong.TryParse(wiiNoFix, out _) || !ulong.TryParse(Text_DiscordID.Text, out _))
             {
                 MessageBox.Show("Please enter a valid number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             // check if WiiNo is 16 digits
-            if (WiiNoFix.Length != 16)
+            if (wiiNoFix.Length != 16)
             {
                 MessageBox.Show("Please enter a 16 digit number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -84,20 +84,21 @@ namespace WiiLink_Desktop_CS
             }
 
             // convert WiiType to WiiType enum
-            ulong WiiNo = ulong.Parse(WiiNoFix);
-            WiiType WiiType = (WiiType)Combo_WiiType.SelectedIndex;
-            ulong DiscordID = ulong.Parse(Text_DiscordID.Text);
-            string ServerURL = Text_ServerURL.Text;
-            bool PlayAudio = Check_PlayAudio.Checked;
+            var wiiNo = ulong.Parse(wiiNoFix);
+            var wiiType = (WiiType)Combo_WiiType.SelectedIndex;
+            var discordId = ulong.Parse(Text_DiscordID.Text);
+            var ServerURL = Text_ServerURL.Text;
+            var PlayAudio = Check_PlayAudio.Checked;
 
-            Options.WiiNo = WiiNo;
-            Options.WiiType = WiiType;
-            Options.DiscordID = DiscordID;
+            Options.WiiNo = wiiNo;
+            Options.WiiType = wiiType;
+            Options.DiscordID = discordId;
             Options.ServerURL = ServerURL;
             Options.PlayAudio = PlayAudio;
 
-            string json = JsonSerializer.Serialize(Options);
+            var json = JsonSerializer.Serialize(Options);
             File.WriteAllText("config.json", json);
+            Program.Options = Options;
             MessageBox.Show("Settings saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             BGM_Settings.Stop();
@@ -105,7 +106,7 @@ namespace WiiLink_Desktop_CS
             {
                 BGM_Main2.PlayLooping();
             }
-            this.Close();
+            Close();
         }
     }
 }
