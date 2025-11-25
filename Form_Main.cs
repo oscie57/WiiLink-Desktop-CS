@@ -18,17 +18,20 @@ namespace WiiLink_Desktop_CS
             InitializeComponent();
         }
 
-        public static async Task ProcessPosterList(string URL, List<PosterMeta> PosterList, PictureBox Pic_Poster, Label Label_Poster)
+        public async Task ProcessPosterList(string URL, List<PosterMeta> PosterList, PictureBox Pic_Poster, Label Label_Poster)
         {
             while (true)
             {
                 foreach (var Poster in PosterList)
                 {
-                    var posterUrl = $"{URL}/wall/{Poster.posterid}.img";
-                    Pic_Poster.LoadAsync(posterUrl);
-                    // i decided to swap the msg and the title because
-                    // msg displays above the poster in-channel
-                    Label_Poster.Text = Poster.msg;
+                    this.BeginInvoke((MethodInvoker)delegate
+                    {
+                        var posterUrl = $"{URL}/wall/{Poster.posterid}.img";
+                        Pic_Poster.LoadAsync(posterUrl);
+                        // i decided to swap the msg and the title because
+                        // msg displays above the poster in-channel
+                        Label_Poster.Text = Poster.msg;
+                    });
                     await Task.Delay(10_000); //10s delay
                 }
             }
